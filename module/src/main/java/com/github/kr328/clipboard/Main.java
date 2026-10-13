@@ -9,7 +9,6 @@ import android.os.Process;
 
 import com.github.kr328.clipboard.shared.Log;
 import com.github.kr328.magic.services.ServiceManagerProxy;
-import com.github.kr328.zloader.BinderInterceptors;
 import com.github.kr328.zloader.ZygoteLoader;
 
 import java.nio.file.Files;
@@ -34,11 +33,11 @@ public class Main {
                     if (Context.CLIPBOARD_SERVICE.equals(name)) {
                         Log.i("Intercepting clipboard");
 
+                        // Register a proxy Binder in place of the real service instead of
+                        // hooking JNI, which breaks system_server on newer ART.
                         try {
-                            BinderInterceptors.install(service, next -> {
-                                final IClipboard original = IClipboard.Stub.asInterface(next);
-                                return ClipboardProxy.FACTORY.create(original, new ClipboardProxy(original));
-                            });
+                            final IClipboard original = IClipboard.Stub.asInterface(service);
+                            return ClipboardProxy.FACTORY.create(original, new ClipboardProxy(original));
                         } catch (final Throwable e) {
                             Log.e("Replacing clipboard: " + e, e);
                         }

@@ -44,7 +44,7 @@ zygote {
         author = moduleAuthor
         description = moduleDescription
         entrypoint = moduleEntrypoint
-        isUseBinderInterceptors = true
+        isUseBinderInterceptors = false
     }
 }
 

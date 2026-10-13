@@ -88,6 +88,102 @@ public class ClipboardProxy extends IClipboard.Stub {
     }
 
     @Override
+    @TransactProxy
+    public ClipData getPrimaryClip(final String callingPackage, final String attributionTag, final int userId) throws RemoteException {
+        final String packageName = markAsDefaultIME(callingPackage, userId);
+
+        return original.getPrimaryClip(packageName, attributionTagFor(packageName, callingPackage, attributionTag), userId);
+    }
+
+    @Override
+    @TransactProxy
+    public ClipDescription getPrimaryClipDescription(final String callingPackage, final String attributionTag, final int userId) throws RemoteException {
+        final String packageName = markAsDefaultIME(callingPackage, userId);
+
+        return original.getPrimaryClipDescription(packageName, attributionTagFor(packageName, callingPackage, attributionTag), userId);
+    }
+
+    @Override
+    @TransactProxy
+    public boolean hasPrimaryClip(final String callingPackage, final String attributionTag, final int userId) throws RemoteException {
+        final String packageName = markAsDefaultIME(callingPackage, userId);
+
+        return original.hasPrimaryClip(packageName, attributionTagFor(packageName, callingPackage, attributionTag), userId);
+    }
+
+    @Override
+    @TransactProxy
+    public boolean hasClipboardText(final String callingPackage, final String attributionTag, final int userId) throws RemoteException {
+        final String packageName = markAsDefaultIME(callingPackage, userId);
+
+        return original.hasClipboardText(packageName, attributionTagFor(packageName, callingPackage, attributionTag), userId);
+    }
+
+    @Override
+    @TransactProxy
+    public void addPrimaryClipChangedListener(final IOnPrimaryClipChangedListener listener, final String callingPackage, final String attributionTag, final int userId) throws RemoteException {
+        final String packageName = markAsDefaultIME(callingPackage, userId);
+
+        original.addPrimaryClipChangedListener(listener, packageName, attributionTagFor(packageName, callingPackage, attributionTag), userId);
+    }
+
+    @Override
+    @TransactProxy
+    public void removePrimaryClipChangedListener(final IOnPrimaryClipChangedListener listener, final String callingPackage, final String attributionTag, final int userId) throws RemoteException {
+        final String packageName = markAsDefaultIME(callingPackage, userId);
+
+        original.removePrimaryClipChangedListener(listener, packageName, attributionTagFor(packageName, callingPackage, attributionTag), userId);
+    }
+
+    @Override
+    @TransactProxy
+    public ClipData getPrimaryClip(final String callingPackage, final String attributionTag, final int userId, final int deviceId) throws RemoteException {
+        final String packageName = markAsDefaultIME(callingPackage, userId);
+
+        return original.getPrimaryClip(packageName, attributionTagFor(packageName, callingPackage, attributionTag), userId, deviceId);
+    }
+
+    @Override
+    @TransactProxy
+    public ClipDescription getPrimaryClipDescription(final String callingPackage, final String attributionTag, final int userId, final int deviceId) throws RemoteException {
+        final String packageName = markAsDefaultIME(callingPackage, userId);
+
+        return original.getPrimaryClipDescription(packageName, attributionTagFor(packageName, callingPackage, attributionTag), userId, deviceId);
+    }
+
+    @Override
+    @TransactProxy
+    public boolean hasPrimaryClip(final String callingPackage, final String attributionTag, final int userId, final int deviceId) throws RemoteException {
+        final String packageName = markAsDefaultIME(callingPackage, userId);
+
+        return original.hasPrimaryClip(packageName, attributionTagFor(packageName, callingPackage, attributionTag), userId, deviceId);
+    }
+
+    @Override
+    @TransactProxy
+    public boolean hasClipboardText(final String callingPackage, final String attributionTag, final int userId, final int deviceId) throws RemoteException {
+        final String packageName = markAsDefaultIME(callingPackage, userId);
+
+        return original.hasClipboardText(packageName, attributionTagFor(packageName, callingPackage, attributionTag), userId, deviceId);
+    }
+
+    @Override
+    @TransactProxy
+    public void addPrimaryClipChangedListener(final IOnPrimaryClipChangedListener listener, final String callingPackage, final String attributionTag, final int userId, final int deviceId) throws RemoteException {
+        final String packageName = markAsDefaultIME(callingPackage, userId);
+
+        original.addPrimaryClipChangedListener(listener, packageName, attributionTagFor(packageName, callingPackage, attributionTag), userId, deviceId);
+    }
+
+    @Override
+    @TransactProxy
+    public void removePrimaryClipChangedListener(final IOnPrimaryClipChangedListener listener, final String callingPackage, final String attributionTag, final int userId, final int deviceId) throws RemoteException {
+        final String packageName = markAsDefaultIME(callingPackage, userId);
+
+        original.removePrimaryClipChangedListener(listener, packageName, attributionTagFor(packageName, callingPackage, attributionTag), userId, deviceId);
+    }
+
+    @Override
     @TransactProxy(Constants.TRANSACT_CODE_GET_SERVICE)
     public boolean onTransact(final int code, final Parcel data, final Parcel reply, final int flags) throws RemoteException {
         if (Constants.TRANSACT_CODE_GET_SERVICE == code) {
@@ -122,6 +218,11 @@ public class ClipboardProxy extends IClipboard.Stub {
         }
 
         return super.onTransact(code, data, reply, flags);
+    }
+
+    // Attribution tags belong to the calling package, so drop them once we run as the IME.
+    private static String attributionTagFor(final String packageName, final String callingPackage, final String attributionTag) {
+        return TextUtils.equals(packageName, callingPackage) ? attributionTag : null;
     }
 
     private String markAsDefaultIME(final String callingPkg, final int userId) {
