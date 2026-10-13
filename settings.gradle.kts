@@ -3,12 +3,13 @@ rootProject.name = "Clipboard Whitelist"
 include(":shared", ":hideapi", ":module", ":app")
 
 pluginManagement {
+    // Vendored: the upstream maven repository (maven.kr328.app) is offline.
+    includeBuild("external/ZygoteLoader")
+
     repositories {
         mavenCentral()
         google()
         gradlePluginPortal()
-        maven(url = "https://maven.kr328.app/releases")
-        mavenLocal()
     }
 }
 
@@ -16,8 +17,6 @@ dependencyResolutionManagement {
     repositories {
         mavenCentral()
         google()
-        maven(url = "https://maven.kr328.app/releases")
-        mavenLocal()
     }
     versionCatalogs {
         create("libs") {
@@ -31,3 +30,6 @@ dependencyResolutionManagement {
         }
     }
 }
+
+includeBuild("external/ZygoteLoader")
+includeBuild("external/MagicLibrary")
