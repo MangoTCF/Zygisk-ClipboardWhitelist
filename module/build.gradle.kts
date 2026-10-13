@@ -30,7 +30,7 @@ zygote {
         id = "zygisk-$moduleId".replace('-', '_')
         name = "Zygisk - $moduleName"
         archiveName = "zygisk-$moduleId-$versionName"
-        updateJson = "https://github.com/MangoTCF/Riru-ClipboardWhitelist/releases/latest/download/zygisk-$moduleId.json"
+        updateJson = "https://github.com/MangoTCF/Zygisk-ClipboardWhitelist/releases/latest/download/zygisk-$moduleId.json"
     }
 
     all {
