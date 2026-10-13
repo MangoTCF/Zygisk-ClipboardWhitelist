@@ -60,10 +60,10 @@ androidComponents {
 
                 into(layout.buildDirectory.dir("intermediates/manager_apk/$name"))
 
+                // Installed as a regular app by service.sh, see there for why.
                 from(packaging.outputs) {
                     include("*.apk")
-                    into("system/app/ClipboardWhitelist")
-                    rename { "ClipboardWhitelist.apk" }
+                    rename { "manager.apk" }
                 }
             }
             tasks["merge${name.replaceFirstChar(Char::uppercase)}Assets"].dependsOn(syncManager)
