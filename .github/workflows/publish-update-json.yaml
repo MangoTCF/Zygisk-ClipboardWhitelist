@@ -44,7 +44,7 @@ jobs:
 
           echo "Fetching release assets"
 
-          wget -O - '${{ github.event.release.assets_url }}' 2> /dev/null | jq -r ".[].browser_download_url" | while read -r url
+          wget -O - '${{ github.event.release.assets_url }}' 2> /dev/null | jq -r '.[].browser_download_url | select(endswith(".zip"))' | while read -r url
           do
               echo "Processing $url"
 

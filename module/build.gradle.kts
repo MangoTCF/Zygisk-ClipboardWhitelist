@@ -20,24 +20,17 @@ zygote {
     val moduleId = "clipboard-whitelist"
     val moduleName = "Clipboard Whitelist"
     val moduleDescription = "Allow apps access clipboard in background."
-    val moduleAuthor = "Kr328"
+    val moduleAuthor = "Kr328, MangoTCF"
     val moduleEntrypoint = "com.github.kr328.clipboard.Main"
     val versionName = android.defaultConfig.versionName
 
     packages(PACKAGE_SYSTEM_SERVER)
 
-    riru {
-        id = "riru-$moduleId".replace('-', '_')
-        name = "Riru - $moduleName"
-        archiveName = "riru-$moduleId-$versionName"
-        updateJson = "https://github.com/Kr328/Riru-ClipboardWhitelist/releases/latest/download/riru-$moduleId.json"
-    }
-
     zygisk {
         id = "zygisk-$moduleId".replace('-', '_')
         name = "Zygisk - $moduleName"
         archiveName = "zygisk-$moduleId-$versionName"
-        updateJson = "https://github.com/Kr328/Riru-ClipboardWhitelist/releases/latest/download/zygisk-$moduleId.json"
+        updateJson = "https://github.com/MangoTCF/Riru-ClipboardWhitelist/releases/latest/download/zygisk-$moduleId.json"
     }
 
     all {
